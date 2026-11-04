@@ -9,11 +9,15 @@ def buscar_pagina(dia, uf, modalidade, pagina=1):
     parametros = {"dataInicial": dia, "dataFinal" : dia,"uf" : uf, "codigoModalidadeContratacao" : modalidade, "pagina" : pagina, "tamanhoPagina" : TAMANHO_PAGINA}
     r = requests.get(URL_CONTRATACOES, timeout=TIMEOUT, params=parametros) 
     if r.status_code == 204:
-        return response_dict.values()
+        return {"data": [], "totalPaginas": 0}
     r.raise_for_status()
     print(r.status_code)
     return r.json()
 
 
 if __name__ == "__main__":               
-    buscar_pagina("20260701", "SP", 6)
+    resultado1 = buscar_pagina("20260701", "SP", 6)
+    print("Total de Páginas: ",resultado1["totalPaginas"],"\nTamanho da Lista: ",len(resultado1["data"]))
+
+    resultado2 = buscar_pagina("20261225", "SP", 6)
+    print("Total de Páginas: ",resultado2["totalPaginas"],"\nTamanho da Lista: ",len(resultado2["data"]))
