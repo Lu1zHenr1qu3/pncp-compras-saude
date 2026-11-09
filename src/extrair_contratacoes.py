@@ -1,3 +1,4 @@
+import argparse
 import logging
 import requests
 from banco import criar_engine, executar_sql
@@ -78,14 +79,25 @@ def gravar_dia(engine, linhas, dia, uf, modalidade):
             "qtd_registros": len(linhas),
         })
 
+
+def ler_argumentos():
+    parser = argparse.ArgumentParser(description="Extrai contratações do PNCP para o Supabase")
+    parser.add_argument("--inicio", required=True, help="data inicial AAA-MM-DD")
+    parser.add_argument("--fim", required=True, help= "data final AAAA-MM-DD")
+    parser.add_argument("--uf", default="SP")
+    parser.add_argument("--modalidade", type=int, default=6)
+    parser.add_argument("--refazer", action="store_true")
+    return parser.parse_args()
+
 def main():
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
-    inicio = date(2026,7,1)
-    fim = date(2026,7,3)
-    uf= "SP"
-    modalidade = 6
-    refazer = False
+    args = ler_argumentos()
+    inicio = date.fromisoformat(args.inicio)
+    fim = date.fromisoformat(args.fim)
+    uf = args.uf
+    modalidade = args.modalidade
+    refazer = args.refazer
 
     engine = criar_engine()
     executar_sql(engine, "001_criar_tabelas.sql")
