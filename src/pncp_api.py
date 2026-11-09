@@ -31,7 +31,6 @@ def buscar_pagina(dia, uf, modalidade, pagina=1):
         return {"data": [], "totalPaginas": 0}
     
     r.raise_for_status()
-    print(r.status_code)
     return r.json()
 
 def buscar_dia(dia, uf, modalidade):

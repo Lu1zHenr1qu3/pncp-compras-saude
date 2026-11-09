@@ -1,7 +1,12 @@
+import logging
+import requests
+from banco import criar_engine, executar_sql
 import json
 from pncp_api import buscar_dia
 from sqlalchemy import text
 from banco import criar_engine
+from datetime import date, timedelta
+
 
 SQL_UPSERT_CONTRATACAO = """
 INSERT INTO pncp.contratacoes
@@ -27,6 +32,28 @@ ON CONFLICT (dia, uf, modalidade) DO UPDATE SET
     extraido_em   = NOW()
 """
 
+SQL_DIAS_FEITOS = """
+SELECT dia
+FROM pncp.controle_extracao
+WHERE uf = :uf AND modalidade = :modalidade 
+"""
+
+def gerar_dias(inicio, fim):
+    dias = []
+    dia = inicio
+    while dia <= fim:
+        dias.append(dia)
+        dia += timedelta(days=1)
+    return dias
+
+def dias_ja_extraidos(engine, uf, modalidade):
+    feitos = set()
+    with engine.connect() as conexao:
+        resultado = conexao.execute(text(SQL_DIAS_FEITOS), {"uf": uf, "modalidade": modalidade})
+        for linha in resultado:
+            feitos.add(linha[0])
+    return feitos
+
 
 def montar_linha(registro):
     return{
@@ -51,18 +78,66 @@ def gravar_dia(engine, linhas, dia, uf, modalidade):
             "qtd_registros": len(linhas),
         })
 
+def main():
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+
+    inicio = date(2026,7,1)
+    fim = date(2026,7,3)
+    uf= "SP"
+    modalidade = 6
+    refazer = False
+
+    engine = criar_engine()
+    executar_sql(engine, "001_criar_tabelas.sql")
+    feitos = dias_ja_extraidos(engine, uf, modalidade)
+    falhas = []
+
+    for dia in gerar_dias(inicio, fim):
+        if dia in feitos and not refazer:
+            logging.info(f"{dia}: Já extraídos, pulando")
+            continue
+
+        try:
+            compras = buscar_dia(dia.strftime("%Y%m%d"), uf,modalidade)
+
+            linhas = []
+            for compra in compras:
+                linhas.append(montar_linha(compra))
+
+            gravar_dia(engine, linhas, dia, uf, modalidade)
+            logging.info(f"{dia}:  {len(linhas)} compra gravadas")
+
+        except requests.RequestException as erro:
+            logging.error(f"{dia}: falhou {(erro)}")
+            falhas.append(dia)
+    logging.info(f"Fim. Dias com falha: {falhas}")
+
+
+# if __name__ == "__main__":
+#     engine = criar_engine()
+#     compras = buscar_dia("20260701", "SP", 6)
+
+#     linhas = []
+
+#     for compra in compras:
+#         linhas.append(montar_linha(compra))
+
+#     gravar_dia(engine, linhas, "20260701", "SP", 6)
+#     print("Gravadas:", len(linhas))
+
+
+# if __name__ == "__main__":
+#     dias = gerar_dias(date(2026, 7, 30), date(2026, 8, 2))
+#     for d in dias:
+#         print(d, d.strftime("%Y%m%d"))""
+
+
+# if __name__ == "__main__":
+#     engine = criar_engine()
+#     feitos = dias_ja_extraidos(engine, "SP", 6)
+#     print(feitos)
+#     print(date(2026, 7, 1) in feitos)
+#     print(date(2026, 7, 2) in feitos)
 
 if __name__ == "__main__":
-    engine = criar_engine()
-    compras = buscar_dia("20260701", "SP", 6)
-
-    linhas = []
-
-    for compra in compras:
-        linhas.append(montar_linha(compra))
-
-    gravar_dia(engine, linhas, "20260701", "SP", 6)
-    print("Gravadas:", len(linhas))
-
-
-
+    main()
