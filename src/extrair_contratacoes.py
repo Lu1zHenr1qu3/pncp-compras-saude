@@ -124,32 +124,5 @@ def main():
             falhas.append(dia)
     logging.info(f"Fim. Dias com falha: {falhas}")
 
-
-# if __name__ == "__main__":
-#     engine = criar_engine()
-#     compras = buscar_dia("20260701", "SP", 6)
-
-#     linhas = []
-
-#     for compra in compras:
-#         linhas.append(montar_linha(compra))
-
-#     gravar_dia(engine, linhas, "20260701", "SP", 6)
-#     print("Gravadas:", len(linhas))
-
-
-# if __name__ == "__main__":
-#     dias = gerar_dias(date(2026, 7, 30), date(2026, 8, 2))
-#     for d in dias:
-#         print(d, d.strftime("%Y%m%d"))""
-
-
-# if __name__ == "__main__":
-#     engine = criar_engine()
-#     feitos = dias_ja_extraidos(engine, "SP", 6)
-#     print(feitos)
-#     print(date(2026, 7, 1) in feitos)
-#     print(date(2026, 7, 2) in feitos)
-
 if __name__ == "__main__":
     main()
