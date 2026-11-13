@@ -4,9 +4,14 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 URL_CONTRATACOES = "https://pncp.gov.br/api/consulta/v1/contratacoes/publicacao"
+URL_ITENS = "https://pncp.gov.br/api/pncp/v1/orgaos/{cnpj}/compras/{ano}/{sequencial}/itens"
+TAMANHO_PAGINA_ITENS = 500
 TAMANHO_PAGINA = 50
 TIMEOUT = 30
 PAUSA = 3
+
+
+
 
 def criar_sessao():
     regra = Retry(
@@ -49,6 +54,28 @@ def buscar_dia(dia, uf, modalidade):
 
     return todas_compras
 
+def buscar_itens(cnpj, ano, sequencial):
+    url = URL_ITENS.format(cnpj=cnpj, ano=ano, sequencial=sequencial)
+    todos_itens = []
+    pagina = 1
+
+    while True:
+        parametros = {"pagina":pagina, "tamanhoPagina": TAMANHO_PAGINA_ITENS}
+        r = SESSAO.get(url, timeout=TIMEOUT, params=parametros)
+        if r.status_code == 204:
+            break
+        r.raise_for_status()
+
+        itens_pagina = r.json()
+        todos_itens.extend(itens_pagina)
+
+        if len(itens_pagina) < TAMANHO_PAGINA_ITENS:
+            break
+        time.sleep(PAUSA)
+        pagina += 1
+    return todos_itens
+
+
 if __name__ == "__main__":   
 
     # resultado1 = buscar_pagina("20260701", "SP", 6)
@@ -57,9 +84,13 @@ if __name__ == "__main__":
     # resultado2 = buscar_pagina("20261225", "SP", 6)
     # print("Total de Páginas: ",resultado2["totalPaginas"],"\nTamanho da Lista: ",len(resultado2["data"]))
 
-    compras = buscar_dia("20260701", "SP", 6)
-    print("Compras no Dia: ", len(compras))
+    # compras = buscar_dia("20260701", "SP", 6)
+    # print("Compras no Dia: ", len(compras))
 
-    compras_natal = buscar_dia("20261225", "SP", 6)
-    print("Compras no Natal: ", len(compras_natal))
+    # compras_natal = buscar_dia("20261225", "SP", 6)
+    # print("Compras no Natal: ", len(compras_natal))
+
+    itens = buscar_itens("46634044000174", 2025,569)
+    print(len(itens))
+    print(itens[0]["descricao"])
 
