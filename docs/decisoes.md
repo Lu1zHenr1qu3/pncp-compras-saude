@@ -68,3 +68,40 @@ Arquivos: `sql/003_criar_tabelas_itens.sql`, `src/pncp_api.py` (`buscar_itens`),
 ### Próximo (Etapa 9)
 1. Classificar itens pela `descricao` + `materialOuServico = 'M'` → view `pncp.vw_itens_saude`.
 2. Buscar resultados só dos itens de saúde com `temResultado = true`, para cortar volume de chamadas.
+
+---
+
+## Etapa 9 – Classificação dos itens (`pncp.vw_itens_saude`)
+
+Arquivo: `sql/004_vw_itens_saude.sql`.
+
+### Contagem de palavras nos materiais (descrição do item)
+Top: `odont` 5257, `cirurg` 4571, `agulha` 4304, `farmac` 3839, `saude` 2759,
+`seringa` 2518, `luva` 1844, `cateter` 1833, `hospitalar` 1447, `exame` 1340.
+Cauda útil: insulina, medicamento, reagente, oxigênio, prótese, dental, ultrassom,
+laboratório, soro fisiológico, glicemia, laser, órtese, vacina, ambulância.
+
+### Decisões
+- Só `materialOuServico = 'M'`. Serviços ficam de fora neste recorte de produto.
+- Mesma lógica forte/fraca/veto da view de contratações, aplicada em `descricao`.
+- Coluna `tem_resultado` exposta para a extração do nível 3 chamar só quem já tem vencedor.
+- Contagens do `unnest` não são exclusivas (um item entra em várias palavras); a view
+  deduplica naturalmente porque cada item aparece uma vez.
+
+### Validação (antes do ajuste fino de apresentação)
+| categoria | confiança | itens | com resultado |
+|---|---|---|---|
+| ambulâncias | forte | 37 | 13 |
+| material médico-hospitalar | forte | 24.207 | 11.864 |
+| medicamentos | forte | 18.745 | 9.121 |
+| odontologia | forte | 8.427 | 4.500 |
+| saúde geral | fraca | 3.152 | 1.411 |
+| **total** | | **54.568** | **26.909** |
+
+Amostra das fracas: maioria produto/exame de saúde. Lixo pontual (colágeno cosmético,
+kit Pt-Co de saneamento, vidraria genérica). Remédios citados só pelo nome (ex.: dexametasona)
+e alguns itens odontológicos sem a raiz `odont` caíam na faixa fraca → promovidos no ajuste
+(`ampola`, `comprimido`, `guta-percha`, `marca-passo`, `gaze`, etc.).
+
+Teto da Etapa 9 (nível 3): ~27 mil chamadas se buscar todos com `tem_resultado`.
+Com 1 s de pausa ≈ 7–8 h; script incremental com `--limite` para teste.
