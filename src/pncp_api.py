@@ -5,12 +5,12 @@ from urllib3.util.retry import Retry
 
 URL_CONTRATACOES = "https://pncp.gov.br/api/consulta/v1/contratacoes/publicacao"
 URL_ITENS = "https://pncp.gov.br/api/pncp/v1/orgaos/{cnpj}/compras/{ano}/{sequencial}/itens"
+URL_RESULTADOS = ("https://pncp.gov.br/api/pncp/v1/orgaos/{cnpj}/compras/{ano}/{sequencial}"
+    "/itens/{numero_item}/resultados")
 TAMANHO_PAGINA_ITENS = 500
 TAMANHO_PAGINA = 50
 TIMEOUT = 30
 PAUSA = 3
-
-
 
 
 def criar_sessao():
@@ -75,6 +75,14 @@ def buscar_itens(cnpj, ano, sequencial):
         pagina += 1
     return todos_itens
 
+def buscar_resultados(cnpj, ano, sequencial, numero_item):
+    url = URL_RESULTADOS.format(cnpj = cnpj,ano = ano, sequencial = sequencial, numero_item = numero_item)
+    r = SESSAO.get(url, timeout=TIMEOUT)
+    if r.status_code == 204:
+        return []
+    r.raise_for_status()
+    return r.json()
+    
 
 if __name__ == "__main__":   
 
@@ -90,7 +98,11 @@ if __name__ == "__main__":
     # compras_natal = buscar_dia("20261225", "SP", 6)
     # print("Compras no Natal: ", len(compras_natal))
 
-    itens = buscar_itens("46634044000174", 2025,569)
-    print(len(itens))
-    print(itens[0]["descricao"])
+    # itens = buscar_itens("46634044000174", 2025,569)
+    # print(len(itens))
+    # print(itens[0]["descricao"])
+
+    r = buscar_resultados("46634044000174", 2025, 569, 2)
+    print(len(r))
+    print(r[0]["nomeRazaoSocialFornecedor"], r[0]["valorUnitarioHomologado"])
 
