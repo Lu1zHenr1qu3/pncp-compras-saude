@@ -92,11 +92,16 @@ Tudo o que foi descoberto testando a API de consulta do PNCP (Portal Nacional de
 
 - A resposta é **uma lista direto** (não tem `data`, `totalPaginas` etc. como no nível 1).
 - **É paginado, e o padrão é 10.** Sem parâmetros, a compra de instrumentais odontológicos devolveu só **10 de 37 itens**. Sem `pagina` e `tamanhoPagina`, **perde item sem dar erro**.
-- Parâmetros: `pagina` e `tamanhoPagina`. Testado: `tamanhoPagina=50` e `tamanhoPagina=500` trouxeram os 37 de uma vez.
-- Página além do fim: status **200** com lista **vazia** `[]` (diferente do nível 1, que devolve 204).
+- Parâmetros: `pagina` e `tamanhoPagina`. Testado: `tamanhoPagina=50` e `tamanhoPagina=500` trouxeram os 37 de uma vez. No extrator usamos **500**.
+- Página além do fim: status **200** com lista **vazia** `[]` (diferente do nível 1, que devolve 204). Em alguns casos também aparece **204** sem corpo — tratar igual a lista vazia.
+- Compra/itens inexistentes ou removidos: **404** (ex.: `46634176000104-1-000022/2026`). Marcar no controle com 0 itens e seguir.
 - **Total de itens:** `GET .../itens/quantidade` devolve só um número (ex.: `37`).
 
-**Como percorrer:** `while` com `pagina` subindo até vir lista vazia, **ou** consultar `/quantidade` antes e calcular quantas páginas pedir.
+**Como percorrer:** `while` com `pagina` subindo até a página ter menos itens que `tamanhoPagina` (ou lista vazia / 204). Quase toda compra cabe em uma página de 500.
+
+> [!important] Não há resultados em lote
+> `.../compras/{ano}/{seq}/resultados` → **404**. `.../itens/resultados` → **400**.
+> Resultados existem **somente** por item: `.../itens/{numeroItem}/resultados`.
 
 ### Campos importantes de cada item
 
@@ -153,10 +158,10 @@ Tudo o que foi descoberto testando a API de consulta do PNCP (Portal Nacional de
 
 > [!warning] Os níveis 2 e 3 são muito mais pesados
 > Cada compra precisa de 1 chamada de itens + 1 chamada de resultados **por item**. A compra odontológica do exemplo sozinha = 1 + 37 = **38 chamadas**. Com 4 s de pausa, ~2,5 minutos para uma compra só.
-> Se o filtro de saúde deixar, por exemplo, 3 mil compras com 10 itens em média, são ~33 mil chamadas, ou **~37 horas**. Por isso:
-> 1. aplicar o filtro de saúde/odontologia **antes** dos níveis 2 e 3;
-> 2. chamar resultados só quando `temResultado` for `True`;
-> 3. começar com um período curto (1 mês) ou só odontologia, e medir o tempo real antes de ampliar;
+> Carga real da Etapa 8 (compras da `vw_contratacoes_saude`, jul–set/2026, SP, modalidade 6): **131.711 itens** (125.037 materiais, 6.674 serviços; 58.197 materiais com `temResultado`). Por isso:
+> 1. aplicar o filtro de saúde/odontologia **antes** dos níveis 2 e 3 (já feito na view de contratações);
+> 2. no nível 3, filtrar de novo pela **descrição do item** e chamar resultados só quando `temResultado` for `True` e `materialOuServico = 'M'`;
+> 3. pausa menor entre compras no nível 2 (1 s) foi usada na prática; manter Retry para 429/5xx;
 > 4. a carga incremental (poder parar e continuar) é obrigatória.
 
 ## Alertas de qualidade dos dados
