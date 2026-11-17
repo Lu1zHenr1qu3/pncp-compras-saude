@@ -105,3 +105,26 @@ e alguns itens odontológicos sem a raiz `odont` caíam na faixa fraca → promo
 
 Teto da Etapa 9 (nível 3): ~27 mil chamadas se buscar todos com `tem_resultado`.
 Com 1 s de pausa ≈ 7–8 h; script incremental com `--limite` para teste.
+
+### Resultado da carga de resultados
+- Extração concluída. Falha transitória `46179941000135-1-000430/2026` item `329` recuperada na retentativa.
+- Totais finais: **26.916** itens no controle, **29.080** resultados gravados
+  (itens com mais de um resultado, típico de registro de preços).
+
+---
+
+## Etapa 10 – View analítica (`pncp.vw_analitica`)
+
+Arquivo: `sql/006_vw_analitica.sql`.
+
+- Uma linha = um resultado (vencedor) de um item de saúde.
+- Junta `resultados` + `vw_itens_saude` + `contratacoes`.
+- Expõe órgão, município, categoria, fornecedor/porte e preços.
+- `economia_pct_unitario` e `economia_valor_total` calculados no SQL
+  (não usar `percentualDesconto` da API — é pouco confiável).
+- Economia só quando **estimado > 0 e homologado > 0** (sigiloso e homologado 0 ficam `null`).
+- `economia_util`: true só se o % unitário estiver entre −100% e +100%. Fora disso
+  costuma ser erro de unidade (preço do kit vs da unidade) ou outlier; no Power BI
+  filtrar `economia_util = true` antes de média/mediana.
+- Validação inicial sem esse filtro: médias absurdas (−12k% em material, −333k% em
+  saúde geral). Odontologia (~37%) e ambulâncias (~19%) já pareciam plausíveis.
