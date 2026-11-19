@@ -1,0 +1,16 @@
+{
+    "name": "Meu Tema de Cores",
+    "dataColors": [
+        "#0367A6",
+        "#03A62C",
+        "#BFB40F",
+        "#F29F05",
+        "#F2F2F2"
+    ],
+    "background": "#F2F2F2",
+    "foreground": "#0367A6",
+    "tableAccent": "#0367A6",
+    "good": "#03A62C",
+    "neutral": "#BFB40F",
+    "bad": "#F29F05"
+}

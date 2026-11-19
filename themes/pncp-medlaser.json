@@ -1,0 +1,233 @@
+{
+  "name": "PNCP Medlaser",
+  "dataColors": [
+    "#C62828",
+    "#E07A2F",
+    "#2E7D32",
+    "#6A1B9A",
+    "#00838F",
+    "#1351B4",
+    "#F9A825",
+    "#546E7A",
+    "#0C326F",
+    "#168821"
+  ],
+  "good": "#168821",
+  "neutral": "#F8C400",
+  "bad": "#C62828",
+  "maximum": "#1351B4",
+  "center": "#F8C400",
+  "minimum": "#DEEFFF",
+  "null": "#9AA5B5",
+  "background": "#FFFFFF",
+  "foreground": "#1B1B1B",
+  "tableAccent": "#1351B4",
+  "firstLevelElements": "#1B1B1B",
+  "secondLevelElements": "#5C6A7A",
+  "thirdLevelElements": "#D5DDE8",
+  "fourthLevelElements": "#9AA5B5",
+  "secondaryBackground": "#F2F5F8",
+  "textClasses": {
+    "callout": {
+      "fontSize": 28,
+      "fontFace": "Segoe UI Semibold",
+      "color": "#1B1B1B"
+    },
+    "title": {
+      "fontSize": 12,
+      "fontFace": "Segoe UI Semibold",
+      "color": "#0C326F"
+    },
+    "header": {
+      "fontSize": 12,
+      "fontFace": "Segoe UI Semibold",
+      "color": "#1B1B1B"
+    },
+    "label": {
+      "fontSize": 10,
+      "fontFace": "Segoe UI",
+      "color": "#5C6A7A"
+    }
+  },
+  "visualStyles": {
+    "*": {
+      "*": {
+        "background": [
+          {
+            "color": { "solid": { "color": "#FFFFFF" } },
+            "transparency": 0
+          }
+        ],
+        "border": [
+          {
+            "show": true,
+            "color": { "solid": { "color": "#D5DDE8" } },
+            "radius": 6
+          }
+        ],
+        "visualHeader": [
+          {
+            "foreground": { "solid": { "color": "#0C326F" } }
+          }
+        ],
+        "title": [
+          {
+            "show": true,
+            "fontColor": { "solid": { "color": "#0C326F" } },
+            "fontSize": 12,
+            "fontFace": "Segoe UI Semibold"
+          }
+        ]
+      }
+    },
+    "page": {
+      "*": {
+        "background": [
+          {
+            "color": { "solid": { "color": "#F2F5F8" } },
+            "transparency": 0
+          }
+        ],
+        "outspace": [
+          {
+            "color": { "solid": { "color": "#F2F5F8" } },
+            "transparency": 0
+          }
+        ]
+      }
+    },
+    "card": {
+      "*": {
+        "background": [
+          {
+            "color": { "solid": { "color": "#1351B4" } },
+            "transparency": 0
+          }
+        ],
+        "border": [
+          {
+            "show": false
+          }
+        ],
+        "labels": [
+          {
+            "color": { "solid": { "color": "#FFFFFF" } },
+            "fontSize": 11,
+            "fontFace": "Segoe UI"
+          }
+        ],
+        "categoryLabels": [
+          {
+            "show": true,
+            "color": { "solid": { "color": "#D5DDE8" } },
+            "fontSize": 10,
+            "fontFace": "Segoe UI"
+          }
+        ]
+      }
+    },
+    "cardVisual": {
+      "*": {
+        "background": [
+          {
+            "color": { "solid": { "color": "#1351B4" } },
+            "transparency": 0
+          }
+        ],
+        "border": [
+          {
+            "show": false
+          }
+        ]
+      }
+    },
+    "tableEx": {
+      "*": {
+        "background": [
+          {
+            "color": { "solid": { "color": "#FFFFFF" } },
+            "transparency": 0
+          }
+        ],
+        "grid": [
+          {
+            "gridVertical": false,
+            "gridHorizontal": true,
+            "gridHorizontalColor": { "solid": { "color": "#D5DDE8" } },
+            "rowPadding": 4
+          }
+        ],
+        "columnHeaders": [
+          {
+            "fontColor": { "solid": { "color": "#FFFFFF" } },
+            "backColor": { "solid": { "color": "#1351B4" } },
+            "fontSize": 10,
+            "fontFace": "Segoe UI Semibold"
+          }
+        ],
+        "values": [
+          {
+            "fontColorPrimary": { "solid": { "color": "#1B1B1B" } },
+            "backColorPrimary": { "solid": { "color": "#FFFFFF" } },
+            "fontColorSecondary": { "solid": { "color": "#1B1B1B" } },
+            "backColorSecondary": { "solid": { "color": "#F2F5F8" } },
+            "fontSize": 10
+          }
+        ],
+        "total": [
+          {
+            "fontColor": { "solid": { "color": "#FFFFFF" } },
+            "backColor": { "solid": { "color": "#0C326F" } },
+            "fontFace": "Segoe UI Semibold"
+          }
+        ]
+      }
+    },
+    "pivotTable": {
+      "*": {
+        "background": [
+          {
+            "color": { "solid": { "color": "#FFFFFF" } },
+            "transparency": 0
+          }
+        ],
+        "columnHeaders": [
+          {
+            "fontColor": { "solid": { "color": "#FFFFFF" } },
+            "backColor": { "solid": { "color": "#1351B4" } }
+          }
+        ],
+        "rowHeaders": [
+          {
+            "fontColor": { "solid": { "color": "#1B1B1B" } },
+            "backColor": { "solid": { "color": "#F2F5F8" } }
+          }
+        ]
+      }
+    },
+    "slicer": {
+      "*": {
+        "background": [
+          {
+            "color": { "solid": { "color": "#FFFFFF" } },
+            "transparency": 0
+          }
+        ],
+        "items": [
+          {
+            "fontColor": { "solid": { "color": "#1B1B1B" } },
+            "background": { "solid": { "color": "#FFFFFF" } }
+          }
+        ],
+        "header": [
+          {
+            "fontColor": { "solid": { "color": "#0C326F" } },
+            "background": { "solid": { "color": "#FFFFFF" } },
+            "text": "Filtro",
+            "show": true
+          }
+        ]
+      }
+    }
+  }
+}
