@@ -47,6 +47,7 @@ Detalhes da API e armadilhas de filtro: `docs/api.md` e `docs/decisoes.md`.
 ## Power BI
 
 ### Desktop
+- Arquivo do relatório: [`powerbi/pncp.pbix`](powerbi/pncp.pbix)
 - Modelo em **Import** a partir do Postgres (pooler Supabase)
 - View principal: `pncp.vw_analitica`
 - Tema: `themes/pncp-medlaser.json`
