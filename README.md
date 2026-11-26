@@ -24,11 +24,12 @@ Estágio / portfólio — Medlaser (BI).
 ## Estrutura
 
 ```
-sql/           # tabelas e views
-src/           # API, banco, extratores
-docs/          # decisões e anotações da API
-themes/        # tema JSON e assets do Power BI
-scripts/       # utilitários (ex.: gerar insights)
+sql/              # tabelas e views
+src/              # API, banco, extratores
+docs/             # decisões, API e screenshots
+powerbi/          # pncp.pbix (relatório)
+themes/           # tema JSON do Power BI
+scripts/          # utilitários (ex.: gerar insights)
 ```
 
 ## Setup rápido
@@ -87,7 +88,28 @@ Credenciais corretas (quando o Serviço aceitar / no Desktop):
 - Odontologia ~R$ 30 Mi · Material ~R$ 654 Mi
 - Itens com “laser” na descrição: 44 no geral · 3 só em odontologia
 
+## Screenshots
+
+### Páginas operacionais
+
+| Página | Preview |
+|---|---|
+| Visão geral | ![Visão geral](docs/screenshots/01-visao-geral.png) |
+| Mercado e concorrência | ![Mercado](docs/screenshots/02-mercado.png) |
+| Geografia (SP) | ![Geografia](docs/screenshots/03-geografia.png) |
+| Recorte Medlaser | ![Medlaser](docs/screenshots/04-medlaser.png) |
+
+### Páginas de insights
+
+| Página | Preview |
+|---|---|
+| Insight — Visão geral | ![Insight visão geral](docs/screenshots/05-insight-visao-geral.png) |
+| Insight — Mercado | ![Insight mercado](docs/screenshots/06-insight-mercado.png) |
+| Insight — Geografia | ![Insight geografia](docs/screenshots/07-insight-geografia.png) |
+| Insight — Medlaser | ![Insight Medlaser](docs/screenshots/08-insight-medlaser.png) |
+
 ## Documentação
 
 - `docs/api.md` — endpoints e comportamentos do PNCP
 - `docs/decisoes.md` — filtros, RLS, economia útil, Power BI Service
+- `docs/screenshots/` — capturas das 8 páginas do dashboard
