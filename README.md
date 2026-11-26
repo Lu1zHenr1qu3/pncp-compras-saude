@@ -4,6 +4,30 @@ Pipeline de dados públicos do [PNCP](https://www.gov.br/pncp/pt-br) focado em c
 
 Estágio / portfólio — Medlaser (BI).
 
+<p align="center"><strong>Visão geral</strong></p>
+<p align="center"><img src="docs/screenshots/01-visao-geral.png" alt="Visão geral" width="900"></p>
+
+<p align="center"><strong>Mercado e concorrência</strong></p>
+<p align="center"><img src="docs/screenshots/02-mercado.png" alt="Mercado e concorrência" width="900"></p>
+
+<p align="center"><strong>Geografia (SP)</strong></p>
+<p align="center"><img src="docs/screenshots/03-geografia.png" alt="Geografia (SP)" width="900"></p>
+
+<p align="center"><strong>Recorte Medlaser</strong></p>
+<p align="center"><img src="docs/screenshots/04-medlaser.png" alt="Recorte Medlaser" width="900"></p>
+
+<p align="center"><strong>Insight — Visão geral</strong></p>
+<p align="center"><img src="docs/screenshots/05-insight-visao-geral.png" alt="Insight Visão geral" width="900"></p>
+
+<p align="center"><strong>Insight — Mercado</strong></p>
+<p align="center"><img src="docs/screenshots/06-insight-mercado.png" alt="Insight Mercado" width="900"></p>
+
+<p align="center"><strong>Insight — Geografia</strong></p>
+<p align="center"><img src="docs/screenshots/07-insight-geografia.png" alt="Insight Geografia" width="900"></p>
+
+<p align="center"><strong>Insight — Medlaser</strong></p>
+<p align="center"><img src="docs/screenshots/08-insight-medlaser.png" alt="Insight Medlaser" width="900"></p>
+
 ## O que o projeto faz
 
 1. Extrai contratações publicadas na API do PNCP (SP, modalidade 6, jul–set/2026)
@@ -87,26 +111,6 @@ Credenciais corretas (quando o Serviço aceitar / no Desktop):
 - Economia média útil ~30,45%
 - Odontologia ~R$ 30 Mi · Material ~R$ 654 Mi
 - Itens com “laser” na descrição: 44 no geral · 3 só em odontologia
-
-## Screenshots
-
-### Páginas operacionais
-
-| Página | Preview |
-|---|---|
-| Visão geral | ![Visão geral](docs/screenshots/01-visao-geral.png) |
-| Mercado e concorrência | ![Mercado](docs/screenshots/02-mercado.png) |
-| Geografia (SP) | ![Geografia](docs/screenshots/03-geografia.png) |
-| Recorte Medlaser | ![Medlaser](docs/screenshots/04-medlaser.png) |
-
-### Páginas de insights
-
-| Página | Preview |
-|---|---|
-| Insight — Visão geral | ![Insight visão geral](docs/screenshots/05-insight-visao-geral.png) |
-| Insight — Mercado | ![Insight mercado](docs/screenshots/06-insight-mercado.png) |
-| Insight — Geografia | ![Insight geografia](docs/screenshots/07-insight-geografia.png) |
-| Insight — Medlaser | ![Insight Medlaser](docs/screenshots/08-insight-medlaser.png) |
 
 ## Documentação
 
