@@ -128,3 +128,29 @@ Arquivo: `sql/006_vw_analitica.sql`.
   filtrar `economia_util = true` antes de média/mediana.
 - Validação inicial sem esse filtro: médias absurdas (−12k% em material, −333k% em
   saúde geral). Odontologia (~37%) e ambulâncias (~19%) já pareciam plausíveis.
+
+---
+
+## Etapa 11 – Power BI (Desktop + Service)
+
+### Desktop
+- Fonte: Postgres Supabase (Session Pooler) em modo **Import**, view `pncp.vw_analitica`.
+- Tema: `themes/pncp-medlaser.json`.
+- Páginas operacionais: Visão geral, Mercado, Geografia (SP), Recorte Medlaser.
+- Páginas de Insights (1 texto por visual) + tooltips de página:
+  `Tip Municipio`, `Tip Fornecedor`, `Tip Item`.
+- Laser: **44** itens na base geral; **3** com filtro em odontologia.
+- Outliers de economia ~99% (estimado alto × homologado quase zero) tratados como
+  qualidade de dado; médias usam `economia_util = true`.
+
+### Service
+- Relatório/modelo semântico `pncp` publicados no workspace.
+- Credenciais no Serviço: **Acesso aos dados → Credenciais da fonte de dados**.
+- Erro ao testar/atualizar no cloud:
+
+  `The remote certificate is invalid according to the validation procedure.`
+
+  Causa: validação SSL do pooler Supabase no Power BI Service (não é senha incorreta;
+  Desktop conecta normalmente).
+- Decisão: manter publicação para navegação; atualizar dados republicando pelo Desktop.
+  Gateway + certificado na máquina só se refresh agendado for obrigatório.
